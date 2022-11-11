@@ -4,5 +4,4 @@
 
 # 수업자료
 
-- [this respository](/microprocessor-design-and-experiment)
 - 출처 : [조교님 깃헙](https://github.com/kangtegong/microprocessor-design-and-experiment)
