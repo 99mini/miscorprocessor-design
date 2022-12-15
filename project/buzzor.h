@@ -1,0 +1,3 @@
+// buzzor.h
+
+void startBuzzor();
