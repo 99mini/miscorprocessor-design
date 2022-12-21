@@ -52,27 +52,6 @@ void set_fnd1(int select, int data) {
 	}
 }
 
-/*
-	Turn on 4 FND
-	USED PIN: C G
-*/
-void set_fnd4(int data, unsigned int ms) {
-	unsigned int time = 5;
-	unsigned int max_time = ms * F_CPU / 1777000;
-	int data0 = (data / 1000) % 10; // 5
-	int data1 = (data / 100) % 10; // 0
-	int data2 = (data / 10) % 10; // 2
-	int data3 = (data / 1) % 10; // 3
-
-	while (time < max_time) {
-		set_fnd1(0, data0); _delay_ms(2);
-		set_fnd1(1, data1); _delay_ms(2);
-		set_fnd1(2, data2); _delay_ms(2);
-		set_fnd1(3, data3); _delay_ms(2);
-		time++;
-	}
-}
-
 void set_off(){
 	set_fnd1(1,0); _delay_ms(2);
 	set_fnd1(2,11); _delay_ms(2);
