@@ -10,7 +10,6 @@
 #include "switch.h"
 #include "buzzor.h"
 #include "temperature.h"
-#include "lcd.h"
 #include "utils.h"
 
 #define ON 1
@@ -21,10 +20,8 @@
 #define MOTOR_MODE3 3
 
 volatile int isStart = OFF;
-volatile int isTemperature = OFF;
 volatile int temperature = 0;
 volatile int value_int = 0;
-volatile char *lcd_string;
 
 void init(){
 	initMotor();
@@ -34,16 +31,11 @@ void init(){
 	DDRC = 0xff; 
 	DDRG = 0xff;
 
-	// ¿Âµµ ¼¾¼­ 
+	// ï¿½Âµï¿½ ï¿½ï¿½ï¿½ï¿½ 
     PORTD = 3;
 
     temp_init();
-    _delay_ms(100);
-
-    LCD_Init();  
-	_delay_ms(50);       // ÅØ½ºÆ® LCD ÃÊ±âÈ­ - ÇÔ¼ö È£Ãâ
-
-	
+    _delay_ms(100);	
 }
 
 void setTemp(){
@@ -60,8 +52,8 @@ void display(){
 }
 
 /* 
-½ºÀ§Ä¡ 1¹ø ÀÎÅÍ·´Æ®
-ÇÁ·Î±×·¥ ½ÃÀÛ
+ï¿½ï¿½ï¿½ï¿½Ä¡ 1ï¿½ï¿½ ï¿½ï¿½ï¿½Í·ï¿½Æ®
+ï¿½ï¿½ï¿½Î±×·ï¿½ ï¿½ï¿½ï¿½ï¿½
 */
 SIGNAL(SIG_INTERRUPT4){
 
@@ -75,8 +67,8 @@ SIGNAL(SIG_INTERRUPT4){
 }
 
 /* 
-½ºÀ§Ä¡ 2¹ø ÀÎÅÍ·´Æ®
-fnd ¿Âµµ Ç¥½Ã
+ï¿½ï¿½ï¿½ï¿½Ä¡ 2ï¿½ï¿½ ï¿½ï¿½ï¿½Í·ï¿½Æ®
+fnd ï¿½Âµï¿½ Ç¥ï¿½ï¿½
 */ 
 
 SIGNAL(SIG_INTERRUPT5){
@@ -91,30 +83,28 @@ int main(void)
 {
 	init();
 
-	DDRE = 0xcf; // 0b11011111, PE5(switch2)´Â ÀÔ·Â    
+	DDRE = 0xcf; // 0b11011111, PE5(switch2)ï¿½ï¿½ ï¿½Ô·ï¿½    
 
     //PORTG = 0x01;
   	EICRB = 0x0a; //falling edge
   	EIMSK = 0x30; //interrupt en
   	SREG |= 1 << 7;
 
-	
-
     while(1)
     {	
 		setTemp();
 		if (isStart == ON){		
 			
-			// 24µµº¸´Ù ³·Àº °æ¿ì ¸ðµå 1
+			// 24ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 1
 			if (value_int < 24){
 				onMotor(MOTOR_MODE1);
 			}
-			// 24µµ ÀÌ»ó 30µµ ¹Ì¸¸ ¸ðµå 2
+			// 24ï¿½ï¿½ ï¿½Ì»ï¿½ 30ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ 2
 			else if (value_int >= 24 && value_int < 30){
 				onMotor(MOTOR_MODE2);
 			}
-			// 30µµ ÀÌ»ó ¸ðµå 3
-			// ºÎÀú ¿ï¸®±â
+			// 30ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ 3
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¸®ï¿½ï¿½
 			else if (value_int >= 30){
 				onMotor(MOTOR_MODE3);
 				startBuzzor();
