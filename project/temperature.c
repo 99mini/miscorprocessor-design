@@ -1,12 +1,11 @@
- 
 #define F_CPU 16000000UL
 #include <avr/io.h> 
 #include <stdio.h>
 #include <util/delay.h>
 #include "temperature.h"
 
-#define aTS75_CONFIG_REG        1
-#define aTS75_TEMP_REG        0
+#define aTS75_CONFIG_REG  1
+#define aTS75_TEMP_REG    0
 
 void I2C_Init(void);
 void I2C_start(void);
@@ -45,7 +44,7 @@ void I2c_stop(void) {
 }
 
 /*
- * Pointer set followed by immediate write to the Configuration Register 데이터시트 참조 
+ * Pointer set followed by immediate write to the Configuration Register 
  */
 void temp_init(void) {
     I2C_Init();
@@ -58,7 +57,7 @@ void temp_init(void) {
  
  
 /*
- * Pointer set followed by immediate read from a 2-byte register 데이터시트 참조
+ * Pointer set followed by immediate read from a 2-byte register 
  */
 int temp_read(void) {
     char high_byte, low_byte;

@@ -1,16 +1,16 @@
 #include <avr/io.h>
+#include <util/delay.h>
 
 #define F_CPU 16000000UL
-#include <util/delay.h>
 
 void startBuuzor();
 
 void startBuzzor() {
-	DDRB = 0x10; // 포트 B의 bit4 를 출력 상태로 세팅
+	DDRB = 0x10; 
 
-    PORTB = 0x10; // 1ms 동안 ‘On’ 상태 유지
+    PORTB = 0x10;
     _delay_ms(1);
-    PORTB = 0x00; // 1ms 동안 ‘Off’ 상태 유지
+    PORTB = 0x00;
 	_delay_ms(1);
 
 }

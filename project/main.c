@@ -31,7 +31,6 @@ void init(){
 	DDRC = 0xff; 
 	DDRG = 0xff;
 
-	// �µ� ���� 
     PORTD = 3;
 
     temp_init();
@@ -51,12 +50,7 @@ void display(){
 	set_fnd1(2,value_int%10);_delay_ms(5);
 }
 
-/* 
-����ġ 1�� ���ͷ�Ʈ
-���α׷� ����
-*/
 SIGNAL(SIG_INTERRUPT4){
-
 	if(isStart == OFF){
 		set_on();
 	}
@@ -66,11 +60,6 @@ SIGNAL(SIG_INTERRUPT4){
 	
 }
 
-/* 
-����ġ 2�� ���ͷ�Ʈ
-fnd �µ� ǥ��
-*/ 
-
 SIGNAL(SIG_INTERRUPT5){
 	for (int i=0;i < 30; i++) display();
 
@@ -79,32 +68,25 @@ SIGNAL(SIG_INTERRUPT5){
 }
 
 
-int main(void)
-{
+int main(void){
 	init();
 
-	DDRE = 0xcf; // 0b11011111, PE5(switch2)�� �Է�    
+	DDRE = 0xcf; // 0b11011111, PE5(switch2)
 
     //PORTG = 0x01;
   	EICRB = 0x0a; //falling edge
   	EIMSK = 0x30; //interrupt en
   	SREG |= 1 << 7;
 
-    while(1)
-    {	
+    while(1){	
 		setTemp();
 		if (isStart == ON){		
-			
-			// 24������ ���� ��� ��� 1
 			if (value_int < 24){
 				onMotor(MOTOR_MODE1);
 			}
-			// 24�� �̻� 30�� �̸� ��� 2
 			else if (value_int >= 24 && value_int < 30){
 				onMotor(MOTOR_MODE2);
 			}
-			// 30�� �̻� ��� 3
-			// ���� �︮��
 			else if (value_int >= 30){
 				onMotor(MOTOR_MODE3);
 				startBuzzor();

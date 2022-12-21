@@ -10,14 +10,12 @@
 void initMotor();
 void onMotor();
 
-
-
 void initMotor(){
 	DDRB=0x20;   // PB5 out 
 	TCCR1A=0x82; 
 	TCCR1B=0x1A; 
 	OCR1A=3000; 
-	ICR1=19999; // OCR1A -> OC Clear / Fast PWM TOP = ICR1 / 8╨паж
+	ICR1=19999; // OCR1A -> OC Clear / Fast PWM TOP = ICR1 
 }
 
 void onMotor(int mode){
@@ -49,6 +47,5 @@ void onMotor(int mode){
 			_delay_ms(MODE1);
 			break;	
 	}
-	
 }
 
